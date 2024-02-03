@@ -1,0 +1,11 @@
+Chat App yozing. Barcha ma'lumotlarni fileda saqlang.
+Authorization qilib keyin chatni ishlata olsin!
+email orqali registeratsiya qila olsin faqat.
+Login ham email orqali bo'ladi regex dan foydalanib
+userni barcha ma'lumotlarni tekshiruvdan o'tkazing.
+Barcha mufaqiyatli bo'lsa log tashlang.
+User qachon registeratsiya bo'lgani
+Time classlaridan biridan foydalanib filega yozing
+filedan o'qib usha classga parse qiling.
+Barcha chatlashuvlarni ozi bilan qachon yozilganigacha vaqtni saqlab keting.
+Dastur yozib bo'lganingizdan keyin githubga qo'ying.
