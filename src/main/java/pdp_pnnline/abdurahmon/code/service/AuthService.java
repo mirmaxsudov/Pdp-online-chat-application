@@ -1,11 +1,17 @@
 package pdp_pnnline.abdurahmon.code.service;
 
+import lombok.extern.java.Log;
 import pdp_pnnline.abdurahmon.code.Main;
 import pdp_pnnline.abdurahmon.code.database.MyDataBase;
 import pdp_pnnline.abdurahmon.code.model.User;
 import pdp_pnnline.abdurahmon.code.util.MyScanner;
 import pdp_pnnline.abdurahmon.code.validation.DtoValidation;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class AuthService {
@@ -42,6 +48,57 @@ public class AuthService {
         System.out.print("Enter your name ");
         name = MyScanner.IN_STR.nextLine();
 
+        while (name == null || name.isBlank()) {
+            System.out.print("Enter your name ");
+            name = MyScanner.IN_STR.nextLine();
+        }
+
+        System.out.print("Enter your email ");
+        email = MyScanner.IN_STR.next();
+
+        while (!DtoValidation.checkEmail(email)) {
+            System.out.print("Enter your email ");
+            email = MyScanner.IN_STR.next();
+        }
+
+        System.out.print("Enter your password ");
+        password = MyScanner.IN_STR.next();
+
+        while (password == null || password.isBlank()) {
+            System.out.print("Enter your password ");
+            password = MyScanner.IN_STR.next();
+        }
+
+        boolean isExists = existUserFromDatabase(email, password);
+
+        if (isExists) {
+            System.out.println("This user already exists");
+        } else {
+            User user = new User(name, email, password);
+            MyDataBase.users.add(user);
+            System.out.println("Successfully registered");
+
+            Logger logger = Logger.getLogger(AuthService.class.getName());
+            logger.info("User " + user.getName() + " registered");
+
+            saveUserToFile(user);
+
+            login();
+        }
+    }
+
+    public static void saveUserToFile(User user) {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                new FileOutputStream("user.txt", true)
+        )) {
+            objectOutputStream.writeObject(user);
+            objectOutputStream.flush();
+            System.out.println("Successfully saved");
+            Logger logger = Logger.getLogger(AuthService.class.getName());
+            logger.info("User " + user.getName() + " saved to txt file");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void login() {

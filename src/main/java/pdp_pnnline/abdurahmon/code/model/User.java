@@ -2,6 +2,7 @@ package pdp_pnnline.abdurahmon.code.model;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
@@ -9,7 +10,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
     private UUID id;
     private String name;
     private String email;
